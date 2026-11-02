@@ -10,15 +10,19 @@
 :root[data-theme="dark"]{--bg:#1b1917;--fg:#ece6dd;--mut:#a39a8f;--acc:#e0a07a;--line:#34302b;--card:#242120;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.75 Georgia,"Times New Roman",serif}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.75 Georgia,"Times New Roman","Amiri","Traditional Arabic",serif}
 .wrap{max-width:680px;margin:0 auto;padding:0 20px 80px}
 header{padding:56px 0 24px;border-bottom:1px solid var(--line)}
 header h1{margin:0;font-size:2rem;letter-spacing:.01em}
 header p{margin:8px 0 0;color:var(--mut);font-style:italic}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}
-nav button{font:inherit;font-size:.9rem;padding:6px 14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;cursor:pointer}
-nav button.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
-.item{display:block;padding:18px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;cursor:pointer}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 0}
+.nav:first-of-type{margin-top:24px}
+.nav .lbl{font:.75rem/2.2 system-ui,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;width:100%;margin-bottom:-4px}
+.nav button{font:inherit;font-size:.9rem;padding:6px 14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;cursor:pointer}
+.nav button.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+h3.kt{margin:40px 0 0;font-size:1.5rem;border-bottom:2px solid var(--acc);padding-bottom:4px}
+h4.lt{margin:20px 0 0;font:600 .8rem/1.4 system-ui,sans-serif;color:var(--acc);text-transform:uppercase;letter-spacing:.08em}
+.item{display:block;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;cursor:pointer}
 .item h2{margin:0 0 4px;font-size:1.2rem;color:var(--fg)}
 .item:hover h2{color:var(--acc)}
 .meta{font:.8rem/1.4 system-ui,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
@@ -26,40 +30,66 @@ nav button.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
 article h2{font-size:1.8rem;margin:8px 0 4px}
 article .body{margin-top:24px;white-space:pre-line}
 article.poem .body{font-style:italic}
+article[dir=rtl] .body{font-size:1.25rem;line-height:2}
 .back{font:.9rem system-ui,sans-serif;color:var(--acc);text-decoration:none;cursor:pointer;display:inline-block;margin-top:24px}
 footer{margin-top:48px;color:var(--mut);font:.85rem system-ui,sans-serif}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><h1>Yazılarım</h1><p>Akademik çalışmalar, denemeler ve şiirler</p></header>
-<nav id="nav"></nav>
+<header><h1>Yazılarım</h1><p>Akademik çalışmalar, denemeler, öyküler, şiirler ve seyahat yazıları</p></header>
+<div class="nav" id="nav"></div>
+<div class="nav" id="nav2"></div>
 <main id="main"></main>
 <footer>© <span id="yr"></span> · Tüm hakları saklıdır.</footer>
 </div>
 <script>
-/* YAZILARI BURADAN DÜZENLEYİN: kategori = "Akademik" | "Deneme" | "Şiir" */
+/* YAZILARI BURADAN DÜZENLEYİN
+   kat: "Akademik" | "Deneme" | "Öykü ve Hikâye" | "Şiir" | "Seyahat"
+   dil: "tr" (Türkçe) | "ar" (Arapça) | "en" (İngilizce) */
 const POSTS=[
-{id:"falafel-ve-yeme-teknigi",kat:"Deneme",baslik:"Falafel ve Yeme Tekniği",tarih:"2026-11-02",ozet:"Deneme yazısı.",metin:"Yazının metnini buraya ekleyin."},
-{id:"musveddeler-hakkinda",kat:"Deneme",baslik:"Müsveddeler Hakkında",tarih:"2026-11-02",ozet:"Deneme yazısı.",metin:"Yazının metnini buraya ekleyin."},
-{id:"ornek-makale",kat:"Akademik",baslik:"Örnek Akademik Yazı",tarih:"2026-11-01",ozet:"Makale ya da bildiri özeti buraya gelir.",metin:"Makalenin metnini ya da özetini buraya ekleyin."},
-{id:"ornek-siir",kat:"Şiir",baslik:"Örnek Şiir",tarih:"2026-10-30",ozet:"Şiirin ilk dizesi.",metin:"Şiirinizi buraya\ndizelerle yazın."}
+{id:"falafel-ve-yeme-teknigi",kat:"Deneme",dil:"tr",baslik:"Falafel ve Yeme Tekniği",tarih:"2026-11-02",ozet:"Nohuttan hiç köfte olur mu canım, demeyin; oluyor efendim.",metin:"Falafel (فلافيل)\n\nİçeriğine baktığımızda çok basit bileşenleri olan, özellikle sıcak yenildiğinde damak çatlatan bir lezzet. Asıl malzemesi nohut, evet evet, yanlış duymadınız; bildiğimiz nohut. Nohuttan hiç köfte olur mu canım, demeyin; oluyor efendim. Falafelin makbulü, dışı çıtır çıtır olanıdır; ısırıldığında kulağa gelen çıtırtı bir senfoni misali olmalı, içi ise yumuşacık, mısır ekmeğinden hallice bir kıvamda olmalıdır. Baharat ise tartışmasız bu lezzeti zirveye çıkaran unsurdur; birçok Arap ülkesinde falafel baharatı paketlerde hazır olarak satılıyor. Ürdün’de Kalha’da yenilen falafelin tadı gerçekten bambaşka: iri iri falafeller, taze yağa tıpkı kuru toprağa düşen rahmet damlaları gibi düşüyor. Hafifçe kızardığında iş tamam demektir. Tadına gelince, ilk ısırıkta sizi hafif baharatlar karşılarken sonunda kendinizi anasonun sıcak kollarına bırakıyorsunuz. Özellikle anasonu ısırıp ağızda çiğnemenin tarifi mümkün değil.\n\nMısır’da ise falafele Tamiyye (الطعمية) diyorlar. Baharatlar aynı, yalnız ana malzememiz değişiyor: nohut yerine bakladan yapılıyor ve falafelden daha iri oluyor. İçli köftenin yan sanayisi desek yanlış olmaz sanırım. Ancak Mısırlılar tamiyyenin falafelden daha lezzetli olduğunu söylüyorlar. Falafelin menşei Lübnan, Suriye, Ürdün ve Filistin arasında bir türlü paylaşılamıyor. Ee… Tabii canım, böyle bir lezzeti kim sahiplenmek istemez ki?\n\nFalafel dürüm olarak humus, acı soslar, turşu ve patates kızartmasıyla servis ediliyor; ancak bana sorarsanız biraz kural dışına çıkıp falafeli şöyle tüketmenizi tavsiye ederim. Falafelcilerin yakınlarında genelde bir fırın olur; hemen fırına koşun, oradan sıcak tandır ekmeği alın. Aman aman efendim, dikkat edin, elleriniz yanmasın… Fırından sıcak sıcak alınmış ekmeği fazla terletmeden poşetten çıkarın; çıkarmadan önce ise şöyle bir güzel koklayın. Ekmek büyük olduğundan narince, incitmeden bir parça koparın. Kese kâğıdının içinden falafel alın ve zaman kaybetmeden ya uzaktan kuzeni humusa ya da eski dostu mütebbele bandırın. Daha sonra ortama biraz renk katmak için Şatta’yı (acı sos) bu güzelliğe damlatın; sonrasında olacaklardan sorumlu değilim. (Not: Taklitlerimden sakınınız.) (Not 2: Parmaklara dikkat.) Unutmadan… Yanında Ürdün’ün meşhur naneli çayını da içmenizi tavsiye ederim.\n\nEsenle kalın."},
+{id:"musveddeler-hakkinda",kat:"Deneme",dil:"tr",baslik:"Müsveddeler Hakkında",tarih:"2026-11-02",ozet:"Müsvedde, hepimizce malum olan önemsiz bir kâğıt parçası mıdır?",metin:"Müsveddeler aslında hepimizce malum olan, önemsiz bir kâğıt parçasıdır, öyle değil mi? Üstüne yazı yazıp karaladığımız, işimiz bitince şöyle bir güzel buruşturup çöpe attığımız o kâğıt parçası mıdır yani? Şimdi içinizdeki “siz”in kapısını çalın; eğer cevabınız evet ise geçmiş olsun... Bir bardak soğuk su için. Çünkü siz duygularınızı, düşüncelerinizi, kendinizden bir parçayı, belki de birçok parçayı, hatta düpedüz kendinizi şöyle bir güzel buruşturarak çöpe atmışsınız.\n\nAslında müsveddeler tıpkı sevgiliden gelen bir gül gibidir. Yeri geldiğinde herkesten saklanır, bazen suyla, bazen gözyaşlarıyla sulanır. Aşığın eline diken battığında kaşları hafifçe çatılır, hemen ardından tatlı bir gülümseme gamzelerinden aşağıya akar; yaşam verir hem aşığa hem maşuğa, yeşertir kalp ormanındaki duygu ağacını. Artık gül ile bütünleşmiştir; gül ona, o da güle bakar saatlerce... Elbet bir gün solacak; ancak solduğunda bile onu kitabının ayracı yapar, yanından ayıramaz.\n\nİşte müsvedde de bir yazar için öyledir. Bunu hiçbir yazar inkâr etmez… Edemez. Burada mürekkebi de unutmamak lazım. Kalemden akan her mürekkep, yazar mutluysa tebessüm, hüzünlüyse gözyaşıdır. Bazen yazar kaleme duyguları öyle bir fısıldar ki kalem dayanamaz, mürekkep akıtmaya başlar; işte bunlar da kalemin gözyaşlarıdır. Yazar ruhunda ve zihninde harmanladığı o gerçek duyguları müsveddeye aktarır; sonuç olarak müsvedde ile mürekkep sonsuza dek ayrılmaz, ayrılamaz. Gerçek yazarlar mürekkepli kalem kullanırlar. Kurşun kalemin ağzı, mürekkepli kalem kadar sıkı değildir, çünkü silgi kurşun kalemin dostudur. Ayrıca silgi sadece yazıyı değil, yazarın ruhundan da bir parçayı götürür, onu kullanılmaz hale getirir. Kısacası o artık silgiye yar olur. Ama mürekkeple yazıldığında silgi etkisiz elemandır. Mürekkep ile kâğıdın aşkı ölümsüzdür. Yanlış bir cümle ya da kelime yazıldığında yazar üstünü karalar; karalar ki alttaki sırra kimse vâkıf olmasın, olamasın. Aşktan taviz verilmesin ve üçüncü bir varlık bu sırrı bilmesin. Bundan dolayı siz siz olun, müsveddelerinizi buruşturmayın, yırtmayın, asla ve asla çöpe atmayın; onları alıp saklayın, onlar sizin bütün sırlarınıza vakıftır. Onları alın ve saklayın, en güzel yerde muhafaza edin, yani kalbinizde.\n\nEsenle kalın."},
+{id:"insan-sen-nasil-bir-varliksin",kat:"Deneme",dil:"tr",baslik:"İnsan, Sen Nasıl Bir Varlıksın?",tarih:"2026-11-02",ozet:"Davranış ve iletişim, insanın kişiliğini ortaya koyar.",metin:"Davranış ve iletişim, insanın kişiliğini ortaya koyar. Tıpkı bir süzgeç gibi fazlalıkları ayıklar, geriye asıl madeni bırakır. Daha dün adalet, hak diye çığlık atan insanlar, şimdi çığlık atmayı kesmiş insanların çığlıklarını duyup kulaklarını tıkarlar; ancak bana dokunmayan yılan bin yıl yaşasın düşüncesinin ileride onlara da zarar vereceği aşikârdır. İnsan olmak sadece kıyafet giymek, iki ayak üzerinde yürümekle olmaz. Hayvan Çiftliği’ndeki Napolyon da iki ayağı üzerinde yürüyor, insan kıyafetleri giyiyordu; ama kıyafetin içindeki asla değişmemişti. İnsanlara üstten bakan, egosu yüzünden konuşurken onlarla göz teması kuramayan kişiler, ne acıdır ki hep yalnız kalırlar ve pişmanlıkları asla ama asla fayda vermez. Çünkü elde avuçta ne varsa hepsini yok etmişlerdir.\n\nYanından geçen birinin ona bir selam bile vermemesi, yüzüne gülümsememesi ne kötüdür. İşin acı tarafı, sokaktaki hayvan dostlarımızı gördüğümüzde bile eğilip onları seviyor, onlara tebessüm ediyoruz; çünkü hayvanlar bu gülüşlere karşılıksız kalmıyor. Kimi zaman gideceğimiz yere kadar bizi takip ediyorlar, kimi zaman sakladıkları yerden birkaç parça getiriyorlar. Bu parça belki ölü bir böcek, belki kurumuş bir kemik; ama o, elinde ne varsa, sadece ama sadece sevgiyle dokunmandan ötürü her şeyini seninle paylaşıyor.\n\nBir de öbürlerine bakalım: Kulaklarını insanlığın çağrılarına kapayıp kendi dünyalarında yaşıyorlar. Sadece ama sadece ego tatmini için insanları gereksiz yere uğraştırıyorlar. Saçma sapan kaideler, kurallar getiriyorlar. Kontrolü ellerinde tutmak, insanların şuurlarını yok edip adeta robot yapmak için ellerinden geleni yapıyorlar. Nice cevherleri törpülüyor ve köreltiyorlar. Ama nafile; insanın düşüncesi asla kökten değişmez, sadece şekil değiştirir. Böyleleri sayısız vaatle seni kandırır, sonunda hiçbir şey olmamış gibi davranır. Çünkü bu zihniyetler hiçbir zaman ilerisini düşünmez, bu böyledir. Anı yaşamaya çalışırlar ama şunu unuturlar ki ileride bu yaptıklarının aynısı onların da başına gelecek. Böyle insanlara asla güvenilmez.\n\nŞöyle denir: “Güven ruh gibidir. İnsandan bir defa ayrıldığı zaman geri dönmez.” Ne kadar doğru söylenmiş. Kaybedilen güven duygusu ne kadar da acıdır; karşındaki sana hangi iyiliği yaparsa yapsın zihninde hep büyük bir soru işareti kalır: “Acaba neden?” diye. Bu, düşünen kişiyi de yıpratır. Çünkü bir süre sonra kişi, güven meselesi yüzünden birkaç kez sırtından bıçaklanmışsa artık herkese böyle yaklaşmaya başlar. Sırtındaki yaralar kabuk tutsa da izi kalır; hatta bazen sızlar, sızlar ki aynı hatayı bir daha yapmasın. En kötüsü de daha dün arkadaşlık ettiğin, sırlarını paylaştığın, yeri geldiğinde beraber ağlayıp beraber güldüğün kişilerin sana üstten bakması ve ihanet etmesidir. İşte bu seni tam anlamıyla delik deşik eder.\n\nSen, sen ol, insanlara asla hak ettiğinden fazla değer verme ve kimseyi gözünde değerinden fazla büyütme. Eğer bu tavsiyelerime uymazsan, senin de bir gün mutlaka “İnsan, sen nasıl bir varlıksın?” diyeceğinden eminim."},
+{id:"yorgunum",kat:"Şiir",dil:"tr",baslik:"Yorgunum",tarih:"2026-11-02",ozet:"Yorgunum, kemancı. Titriyorum…",metin:"Yorgunum, kemancı.\nTitriyorum,\nkemanın üzerinde titreyen parmakların gibi.\nUyumak istiyorum,\nolmuyor.\nÖlümün pençesindeki çocuk gibi titriyorum.\n\nKalkamıyorum yataktan,\nzamklanmış sırtım yatağa.\nGözümün önünden gitmiyor\nakşam güneşinin kızıllığı.\nGözlerim sulanıyor\nsertçe tokat atan rüzgârdan.\n\nAlın beni, götürün bu çölden,\ntaşradan, hüzünden, gurbetten;\nyakamoza,\nbalıkçı sandallarına,\nyosun kokusuna."},
+{id:"su-ve-dal",kat:"Şiir",dil:"tr",baslik:"Su ve Dal",tarih:"2026-11-02",ozet:"Tutunduğum hiçbir dal korumadı beni sudan.",metin:"Tutunduğum hiçbir dal\nkorumadı beni sudan.\nSuya bıraktım kendimi,\nsuyla dost oldum;\no da boğdu beni\nserin sularıyla."},
+{id:"yagmurlu-bir-sabah",kat:"Şiir",dil:"tr",baslik:"Yağmurlu Bir Sabah",tarih:"2026-11-02",ozet:"Yine yağmurlu bir sabaha uyandım.",metin:"Yine yağmurlu bir sabaha uyandım.\nPencereden gelen hafif soğuk bir esinti\nve yağmur kokusu,\nve unutmadan araba sesleri, o damlaları kesercesine.\nSuyu gören kuşların mutluluğu.\n\nSokak lambaları hafiften yanıyor gülümsercesine,\nve güneş ufaktan göz kırpıyor usulca,\nama biraz utanmış;\nsanırım geç kaldığından kıpkırmızı.\n\nKulağımı pencereye dayadım,\ntoğrağın yağmura olan özlemini duydum.\nBen ise yine odada tek başıma;\niki tane bembeyaz lamba\nkızarcasına\nsert bir bakış atıyor bana."},
+{id:"tutunanlar-ve-tutunamayanlar",kat:"Şiir",dil:"tr",baslik:"Tutunanlar ve Tutunamayanlar",tarih:"2026-11-02",ozet:"Zaman hızlı geçiyor, insanları iki sınıfa ayırıyor.",metin:"Zaman hızlı geçiyor,\ninsanları iki sınıfa ayırıyor\nkeskin bir bıçak gibi:\ntutunanlar ve tutunamayanlar.\n\nTutunanlar,\naşkı tadıp\nsevgilinin\ngözlerinde kavrulanlar.\nTutunamayanlar ise\nhiç ağaça tırmanmayan,\nçiçek toplamayan insanlar.\nAma her ikisini de önüne alıp\nsürüklüyor zaman seli.\n\nŞimdi\nkapat\ngözlerini,\ndinle,\ndinle,\ndinle\nusul usul yağan yağmuru,\nsoğuktan birbirine sarılan\nkedi ve köpeği.\nKokla,\nkokla,\nkokla\ntoğrağın çileli kokusunu,\nyalnızlığın genzi yakan tadını."},
+{id:"ey-ruzgar",kat:"Şiir",dil:"tr",baslik:"Ey Rüzgâr",tarih:"2026-11-02",ozet:"Uzaklaşmak istiyorum her şeyden…",metin:"Uzaklaşmak istiyorum her şeyden,\nancak gemi limandan ayrıldı.\nYolculuğun ortasındayım,\nkara ufukta gözüküyor,\nama hiç takat kalmadı bu hayatta.\n\nNe yapmalıyım?\nDenize atlamalı mı,\nya da kalın halatları boynuma mı dolamalı?\nEy rüzgâr, es,\nkurtar beni bu araftan."},
+{id:"duvarlari-soguk-bir-ev-mi",kat:"Şiir",dil:"tr",baslik:"Duvarları Soğuk Bir Ev mi?",tarih:"2026-11-02",ozet:"Tıpkı insanlar gibi yıkık dökük ve lekeli.",metin:"Tıpkı insanlar gibi\nyıkık dökük ve lekeli.\nAncak boyamış evin sahibi,\nbelli olmuyor en ufak kiri.\nKapılarının bozuk kirişleri\ntıpkı geveze insan dişleri.\nParkeler ise kabarmış sudan belli,\nyoksa bu sulanan insan beyni mi?\n\nPencereler tozlanmış yıllardan beri;\ngözlerini silme vakti gelmedi mi?\nŞu hayata güzel baksak sadece,\nayırmasak rengi, ırkı; biz insanız sadece.\nBence duvarları süslemeden önce\nbir göz at, duvarlar ne âlemde."},
+{id:"cevapsiz-sorular",kat:"Şiir",dil:"tr",baslik:"Cevapsız Sorular",tarih:"2026-11-02",ozet:"Umutsuzluk mu insana güç verir, yoksa umuda olan inancı mı?",metin:"Umutsuzluk mu insana güç verir\nyoksa umuda olan inancı mı?\nYorgunluk mu insanı uyutur,\nyoksa kaybolmak istediği hayalleri mi?\n\nİnsan neden çöker yaşlanınca,\nneden buruşur suratı bozuk bir çarşaf gibi?\nRuhunun insanlar tarafından törpülendiğinden mi,\nyoksa bunlar yediği darbelerin bir eseri mi?\n\nCırcır böceği neden ses çıkarır geceleri,\naşkını dünyaya haykırdığı için mi,\nyoksa bunlar yalnızlığın hıçkırıklı ağlayış sesleri mi?"},
+{id:"hirsizlar",kat:"Şiir",dil:"tr",baslik:"Hırsızlar",tarih:"2026-11-02",ozet:"Pencereden bir bak doğaya, bırak kendini.",metin:"Pencereden bir bak doğaya, bırak kendini.\nKuş sesleri olmazsa nasıl yaşanır bu lanetler âlemi?\nSırtımı yasladığım duvarlar, soğuk ve umutsuz.\nBütün dünya yansa tek bir zerreyi ısıtır mı?\nYoksa kaplumbağa gibi yuvaya çekilme vakti mi?\n\nYanmak bu kadar kolayken sönmek neden zor?\nKafam bir volkan olmuş, patlayacak sanki.\nCamlarda buğu yok, hayallerim nerede?\nÇaldılar mı yoksa?! İşte zanlılar önünde."}
 ];
-const KATS=["Tümü","Akademik","Deneme","Şiir"];
-let kat="Tümü";
+const KATS=["Akademik","Deneme","Öykü ve Hikâye","Şiir","Seyahat"];
+const DILLER=[["tr","Türkçe"],["ar","Arapça"],["en","İngilizce"]];
+let kat="Tümü",dil="Tümü";
 const $=s=>document.querySelector(s);
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt=d=>new Date(d).toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
+const dirOf=p=>p.dil==="ar"?'dir="rtl" lang="ar"':(p.dil==="en"?'lang="en"':'lang="tr"');
+const dilAd=k=>DILLER.find(d=>d[0]===k)[1];
 function liste(){
-  $("#nav").style.display="flex";
-  $("#nav").innerHTML=KATS.map(k=>`<button class="${k===kat?"on":""}" data-k="${k}">${k}</button>`).join("");
+  $("#nav").style.display=$("#nav2").style.display="flex";
+  $("#nav").innerHTML='<span class="lbl">Tür</span>'+["Tümü",...KATS].map(k=>`<button class="${k===kat?"on":""}" data-k="${k}">${k}</button>`).join("");
+  $("#nav2").innerHTML='<span class="lbl">Dil</span>'+[["Tümü","Tümü"],...DILLER].map(d=>`<button class="${d[0]===dil?"on":""}" data-d="${d[0]}">${d[1]}</button>`).join("");
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>{kat=b.dataset.k;liste()});
-  const l=POSTS.filter(p=>kat==="Tümü"||p.kat===kat).sort((a,b)=>b.tarih.localeCompare(a.tarih));
-  $("#main").innerHTML=l.map(p=>`<a class="item" href="#${p.id}"><div class="meta">${p.kat} · ${fmt(p.tarih)}</div><h2>${esc(p.baslik)}</h2><p>${esc(p.ozet)}</p></a>`).join("")||"<p>Henüz yazı yok.</p>";
+  $("#nav2").querySelectorAll("button").forEach(b=>b.onclick=()=>{dil=b.dataset.d;liste()});
+  let h="";
+  KATS.filter(k=>kat==="Tümü"||k===kat).forEach(k=>{
+    const ps=POSTS.filter(p=>p.kat===k&&(dil==="Tümü"||p.dil===dil));
+    if(!ps.length)return;
+    h+=`<h3 class="kt">${k}</h3>`;
+    DILLER.forEach(([kod,ad])=>{
+      const l=ps.filter(p=>p.dil===kod).sort((a,b)=>b.tarih.localeCompare(a.tarih));
+      if(!l.length)return;
+      h+=`<h4 class="lt">${ad}</h4>`+l.map(p=>`<a class="item" ${dirOf(p)} href="#${p.id}"><div class="meta">${fmt(p.tarih)}</div><h2>${esc(p.baslik)}</h2><p>${esc(p.ozet)}</p></a>`).join("");
+    });
+  });
+  $("#main").innerHTML=h||"<p>Bu seçimde henüz yazı yok.</p>";
 }
 function yazi(p){
-  $("#nav").style.display="none";
-  $("#main").innerHTML=`<a class="back" href="#">← Tüm yazılar</a><article class="${p.kat==="Şiir"?"poem":""}"><div class="meta" style="margin-top:20px">${p.kat} · ${fmt(p.tarih)}</div><h2>${esc(p.baslik)}</h2><div class="body">${esc(p.metin)}</div></article>`;
+  $("#nav").style.display=$("#nav2").style.display="none";
+  $("#main").innerHTML=`<a class="back" href="#">← Tüm yazılar</a><article ${dirOf(p)} class="${p.kat==="Şiir"?"poem":""}"><div class="meta" style="margin-top:20px">${p.kat} · ${dilAd(p.dil)} · ${fmt(p.tarih)}</div><h2>${esc(p.baslik)}</h2><div class="body">${esc(p.metin)}</div></article>`;
   window.scrollTo(0,0);
 }
 function route(){
