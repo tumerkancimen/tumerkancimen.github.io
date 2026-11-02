@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yazılarım</title>
+<style>
+:root{--bg:#faf7f2;--fg:#2a2622;--mut:#7a7168;--acc:#8a4b2a;--line:#e4ddd2;--card:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1917;--fg:#ece6dd;--mut:#a39a8f;--acc:#e0a07a;--line:#34302b;--card:#242120;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1917;--fg:#ece6dd;--mut:#a39a8f;--acc:#e0a07a;--line:#34302b;--card:#242120;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.75 Georgia,"Times New Roman",serif}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px 80px}
+header{padding:56px 0 24px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:2rem;letter-spacing:.01em}
+header p{margin:8px 0 0;color:var(--mut);font-style:italic}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}
+nav button{font:inherit;font-size:.9rem;padding:6px 14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;cursor:pointer}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.item{display:block;padding:18px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;cursor:pointer}
+.item h2{margin:0 0 4px;font-size:1.2rem;color:var(--fg)}
+.item:hover h2{color:var(--acc)}
+.meta{font:.8rem/1.4 system-ui,sans-serif;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.item p{margin:6px 0 0;color:var(--mut);font-size:.95rem}
+article h2{font-size:1.8rem;margin:8px 0 4px}
+article .body{margin-top:24px;white-space:pre-line}
+article.poem .body{font-style:italic}
+.back{font:.9rem system-ui,sans-serif;color:var(--acc);text-decoration:none;cursor:pointer;display:inline-block;margin-top:24px}
+footer{margin-top:48px;color:var(--mut);font:.85rem system-ui,sans-serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Yazılarım</h1><p>Akademik çalışmalar, denemeler ve şiirler</p></header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<footer>© <span id="yr"></span> · Tüm hakları saklıdır.</footer>
+</div>
+<script>
+/* YAZILARI BURADAN DÜZENLEYİN: kategori = "Akademik" | "Deneme" | "Şiir" */
+const POSTS=[
+{id:"falafel-ve-yeme-teknigi",kat:"Deneme",baslik:"Falafel ve Yeme Tekniği",tarih:"2026-11-02",ozet:"Deneme yazısı.",metin:"Yazının metnini buraya ekleyin."},
+{id:"musveddeler-hakkinda",kat:"Deneme",baslik:"Müsveddeler Hakkında",tarih:"2026-11-02",ozet:"Deneme yazısı.",metin:"Yazının metnini buraya ekleyin."},
+{id:"ornek-makale",kat:"Akademik",baslik:"Örnek Akademik Yazı",tarih:"2026-11-01",ozet:"Makale ya da bildiri özeti buraya gelir.",metin:"Makalenin metnini ya da özetini buraya ekleyin."},
+{id:"ornek-siir",kat:"Şiir",baslik:"Örnek Şiir",tarih:"2026-10-30",ozet:"Şiirin ilk dizesi.",metin:"Şiirinizi buraya\ndizelerle yazın."}
+];
+const KATS=["Tümü","Akademik","Deneme","Şiir"];
+let kat="Tümü";
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=d=>new Date(d).toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
+function liste(){
+  $("#nav").style.display="flex";
+  $("#nav").innerHTML=KATS.map(k=>`<button class="${k===kat?"on":""}" data-k="${k}">${k}</button>`).join("");
+  $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>{kat=b.dataset.k;liste()});
+  const l=POSTS.filter(p=>kat==="Tümü"||p.kat===kat).sort((a,b)=>b.tarih.localeCompare(a.tarih));
+  $("#main").innerHTML=l.map(p=>`<a class="item" href="#${p.id}"><div class="meta">${p.kat} · ${fmt(p.tarih)}</div><h2>${esc(p.baslik)}</h2><p>${esc(p.ozet)}</p></a>`).join("")||"<p>Henüz yazı yok.</p>";
+}
+function yazi(p){
+  $("#nav").style.display="none";
+  $("#main").innerHTML=`<a class="back" href="#">← Tüm yazılar</a><article class="${p.kat==="Şiir"?"poem":""}"><div class="meta" style="margin-top:20px">${p.kat} · ${fmt(p.tarih)}</div><h2>${esc(p.baslik)}</h2><div class="body">${esc(p.metin)}</div></article>`;
+  window.scrollTo(0,0);
+}
+function route(){
+  const p=POSTS.find(x=>x.id===location.hash.slice(1));
+  p?yazi(p):liste();
+}
+$("#yr").textContent=new Date().getFullYear();
+addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>
