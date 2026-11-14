@@ -1,0 +1,1 @@
+[{"relation": ["delegate_permission/common.handle_all_urls"], "target": {"namespace": "android_app", "package_name": "io.github.tumerkancimen.ydsarapca", "sha256_cert_fingerprints": ["CD:85:B5:D3:F9:74:8C:CB:3A:83:15:22:D0:7F:8B:39:A0:F2:E2:61:C4:0D:54:0E:E5:0A:A8:FA:EF:97:E9:89"]}}]
